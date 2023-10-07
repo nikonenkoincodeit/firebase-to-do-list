@@ -7,7 +7,7 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase();
 
 export function saveUserData(data) {
-  set(ref(db, `task/${data.id}`), data);
+  return set(ref(db, `task/${data.id}`), data);
 }
 
 export function getData() {
@@ -25,5 +25,5 @@ export function removeData(id) {
 }
 
 export function updateData(id, done) {
-  return update(ref(db, `task/${id}`), {done})
+  return update(ref(db, `task/${id}`), { done });
 }

@@ -6,17 +6,21 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/style.css";
 
 form.addEventListener("submit", (e) => {
-  e.preventDefault();
+  try {
+    e.preventDefault();
 
-  const value = e.target.elements.message.value.trim();
-  if (!value) return;
+    const value = e.target.elements.message.value.trim();
+    if (!value) return;
 
-  const newObj = createObj(value);
+    const newObj = createObj(value);
 
-  addMarkup([newObj]);
+    addMarkup([newObj]);
 
-  saveUserData(newObj);
-  e.target.reset();
+    saveUserData(newObj);
+    e.target.reset();
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
 function createObj(value) {
@@ -39,26 +43,39 @@ function addMarkup(data) {
 }
 
 list.addEventListener("click", (e) => {
-  if (e.target.tagName !== "BUTTON") return;
-  const liEl = e.target.closest(".item");
+  try {
+    if (e.target.tagName !== "BUTTON") return;
 
-  const dataId = liEl.dataset.id;
+    const { liEl, dataId } = getParentData(e.target);
 
-  removeData(dataId);
-  liEl.remove();
+    removeData(dataId);
+    liEl.remove();
+  } catch (error) {
+    console.log(error.message);
+  }
 });
 
-list.addEventListener('click', (e) => {
-  if (!e.target.classList.contains('text')) return;
+list.addEventListener("click", (e) => {
+  try {
+    if (!e.target.classList.contains("text")) return;
 
-  const liEl = e.target.closest(".item");
+    const { liEl, dataId } = getParentData(e.target);
+
+    const isClass = liEl.classList.toggle("checked");
+
+    updateData(dataId, isClass);
+  } catch (error) {
+    console.log(error.message);
+  }
+});
+
+function getParentData(el) {
+  const liEl = el.closest(".item");
 
   const dataId = liEl.dataset.id;
-  console.log(liEl);
-  console.log(dataId);
 
-  const isClass = liEl.classList.toggle('checked');
-
-  updateData(dataId, isClass)
-})
-
+  return {
+    liEl,
+    dataId,
+  };
+}
