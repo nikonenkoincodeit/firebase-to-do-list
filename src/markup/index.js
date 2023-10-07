@@ -1,7 +1,7 @@
 export function createMarkup(array = []) {
   return array
     .map((el) => {
-      return `<li class="item ${el.checked ? "checked" : ""} " data-id="${
+      return `<li class="item ${el.done ? "checked" : ""} " data-id="${
         el.id
       }">
     <p class="text">${el.value}</p>
