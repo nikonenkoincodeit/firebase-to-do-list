@@ -1,7 +1,7 @@
 import { uid } from "uid";
 import { form, list } from "./refs";
-import { saveUserData, getData } from "./api";
-import {createMarkup} from "./markup"
+import { saveUserData, getData, removeData } from "./api";
+import { createMarkup } from "./markup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/style.css";
 
@@ -13,8 +13,7 @@ form.addEventListener("submit", (e) => {
 
   const newObj = createObj(value);
 
-  addMarkup([newObj])
-
+  addMarkup([newObj]);
 
   saveUserData(newObj);
   e.target.reset();
@@ -28,11 +27,23 @@ function createObj(value) {
   };
 }
 
-getData().then(resp => {
-addMarkup(resp)
-}).catch(err => console.log(err))
+getData()
+  .then((resp) => {
+    addMarkup(resp);
+  })
+  .catch((err) => console.log(err));
 
 function addMarkup(data) {
   const markup = createMarkup(data);
-  list.insertAdjacentHTML("beforeend", markup)
+  list.insertAdjacentHTML("beforeend", markup);
 }
+
+list.addEventListener("click", (e) => {
+  if (e.target.tagName !== "BUTTON") return;
+  const liEl = e.target.closest(".item");
+
+  const dataId = liEl.dataset.id;
+
+  removeData(dataId);
+  liEl.remove();
+});

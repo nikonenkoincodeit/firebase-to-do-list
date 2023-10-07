@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get } from "firebase/database";
+import { getDatabase, ref, set, get, remove } from "firebase/database";
 import firebaseConfig from "../config/firebase-config";
 
 const app = initializeApp(firebaseConfig);
@@ -11,10 +11,15 @@ export function saveUserData(data) {
 }
 
 export function getData() {
-  return get(ref(db, "task" )).then((snapshot) => {
+  return get(ref(db, "task")).then((snapshot) => {
     if (snapshot.exists()) {
-  return Object.values(snapshot.val());
+      return Object.values(snapshot.val());
     } else {
       throw new Error("No data available");
-    }})
+    }
+  });
+}
+
+export function removeData(id) {
+  return remove(ref(db, `task/${id}`));
 }
