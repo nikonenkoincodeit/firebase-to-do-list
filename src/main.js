@@ -1,6 +1,6 @@
 import { uid } from "uid";
 import { form, list } from "./refs";
-import { saveUserData, getData, removeData } from "./api";
+import { saveUserData, getData, removeData, updateData } from "./api";
 import { createMarkup } from "./markup";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./css/style.css";
@@ -47,3 +47,18 @@ list.addEventListener("click", (e) => {
   removeData(dataId);
   liEl.remove();
 });
+
+list.addEventListener('click', (e) => {
+  if (!e.target.classList.contains('text')) return;
+
+  const liEl = e.target.closest(".item");
+
+  const dataId = liEl.dataset.id;
+  console.log(liEl);
+  console.log(dataId);
+
+  const isClass = liEl.classList.toggle('checked');
+
+  updateData(dataId, isClass)
+})
+

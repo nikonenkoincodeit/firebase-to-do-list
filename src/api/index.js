@@ -1,5 +1,5 @@
 import { initializeApp } from "firebase/app";
-import { getDatabase, ref, set, get, remove } from "firebase/database";
+import { getDatabase, ref, set, get, remove, update } from "firebase/database";
 import firebaseConfig from "../config/firebase-config";
 
 const app = initializeApp(firebaseConfig);
@@ -22,4 +22,8 @@ export function getData() {
 
 export function removeData(id) {
   return remove(ref(db, `task/${id}`));
+}
+
+export function updateData(id, done) {
+  return update(ref(db, `task/${id}`), {done})
 }
